@@ -49,19 +49,20 @@ class _TestPageState extends State<TestPage> {
   int leng = -1;
 
   late Timer _timer;
-  int _start = 10;
+  int _start = 60;
 
-  void startTimer(){
+  void startTimer() {
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,
-      (Timer timer){
+      (Timer timer) {
         if (_start == 0) {
-          setState(() async{
+          setState(() async {
             timer.cancel();
+
             gross_wpm = (chars / 5).round();
             net_wpm = gross_wpm - incorrect_chars;
-            if(net_wpm>bestWPM){
+            if (net_wpm > bestWPM) {
               var is_success = await setBest(net_wpm);
             }
             showDialog(
@@ -125,8 +126,19 @@ class _TestPageState extends State<TestPage> {
     backController.text = text;
 
     frontController.addListener(() {
-      if (frontController.text.length <= leng &&
+      if (frontController.text.split(" ")[current_word_index].length >
+          commonWords[current_word_index].length) {
+        print("Here");
+        var new_text = backController.text.split(" ");
+        new_text.setAll(current_word_index,
+            [frontController.text.split(" ")[current_word_index]]);
+        print(new_text.join(" "));
+
+        backController.text = new_text.join(" ");
+      }
+      if (frontController.text.length < leng &&
           frontController.text.isNotEmpty) {
+        print("Here2 ");
         backController.value = backController.value.copyWith(
             text:
                 "${frontController.text}${text.substring(frontController.text.length)}");

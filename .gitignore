@@ -13,6 +13,7 @@ migrate_working_dir/
 /linux/
 /macos/
 /web/
+/windows/
 
 # IntelliJ related
 *.iml

@@ -231,7 +231,7 @@ class _TestPageState extends State<TestPage> {
             actions: [
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.bar_chart_rounded,
                     size: 32,
                   ),
@@ -240,7 +240,7 @@ class _TestPageState extends State<TestPage> {
                   ),
                   Text(
                     "$bestWPM WPM",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
@@ -259,20 +259,75 @@ class _TestPageState extends State<TestPage> {
               const SizedBox(
                 height: 70,
               ),
-              Container(
-                child: Text(
-                  _start == 60 ? "1:00" : "00:$_start",
-                  style: TextStyle(
-                    fontSize: getadaptiveTextSize(context, 16),
-                    color: Colors.black,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+                    child: Text(
+                      _start == 60 ? "1:00" : "00:$_start",
+                      style: TextStyle(
+                        fontSize: getadaptiveTextSize(context, 16),
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(5),
-                ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: navigatorKey.currentContext!,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Center(
+                                  child: Text(
+                                      "Are you sure you want to reset it?"),
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        navigatorKey.currentState!.pop();
+                                      },
+                                      child: const Text(
+                                        "No",
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                                  TextButton(
+                                      onPressed: () {
+                                        navigatorKey.currentState!
+                                            .pushReplacement(MaterialPageRoute(
+                                                builder: ((context) =>
+                                                    TestPage())));
+                                      },
+                                      child: const Text(
+                                        "Yes",
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                                ],
+                              );
+                            });
+                      },
+                      child: const Icon(
+                        Icons.restart_alt_rounded,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 10,
